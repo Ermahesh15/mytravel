@@ -18,7 +18,7 @@ export default function Homepage() {
           you have wandered the world.
         </h2>
 
-        <NavLink to="app">Cities</NavLink>
+        <NavLink to="app" className='cta'>Start tracking now</NavLink>
       </section>
     </main>
   );
