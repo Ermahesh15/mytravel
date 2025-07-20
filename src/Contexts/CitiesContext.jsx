@@ -12,9 +12,9 @@ function CitiesProvider({ children }) {
     async function getData() {
       try {
         setIsLoading(true);
-        const data = await fetch(BaseURL);
-        const res = await data.json(); // ✅ fixed here
-        setCities(res); // ✅ set data properly
+        const res = await fetch(BaseURL);
+        const data = await res.json(); // ✅ fixed here
+        setCities(data); // ✅ set data properly
       } catch {
         alert("There was an error loading data...");
       } finally {
@@ -25,22 +25,43 @@ function CitiesProvider({ children }) {
     getData();
   }, []);
 
-
-    async function getCity(id) {
-      try {
-        setIsLoading(true);
-        const data = await fetch(`${BaseURL}/${id}`);
-        const res = await data.json(); // ✅ fixed here
-        setCurrentCity(res); // ✅ set data properly
-      } catch {
-        alert("There was an error loading data...");
-      } finally {
-        setIsLoading(false);
-      }
+  async function getCity(id) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BaseURL}/${id}`);
+      const data = await res.json(); // ✅ fixed here
+      setCurrentCity(data); // ✅ set data properly
+    } catch {
+      alert("There was an error loading data...");
+    } finally {
+      setIsLoading(false);
     }
+  }
+
+  async function createCity(newCity) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BaseURL}`, {
+        method: "POST",
+        body: JSON.stringify(newCity),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      setCities((cities) => [...cities, data]);
+      console.log(data);
+    } catch {
+      alert("There was an error loading data...");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
-    <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity }}>
+    <CitiesContext.Provider
+      value={{ cities, isLoading, currentCity, getCity, createCity }}
+    >
       {children}
     </CitiesContext.Provider>
   );
