@@ -1,5 +1,4 @@
 .logo {
-  height: 5.2rem;
   display: flex;
   align-items: center;
   gap: 15px;
@@ -7,4 +6,9 @@
   text-decoration: none;
   color: #fff;
   font-weight: 800;
+
+  img {
+    width: 60px !important;
+    height: 60px;
+  }
 }
